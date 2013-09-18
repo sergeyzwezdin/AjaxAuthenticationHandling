@@ -1,0 +1,97 @@
+﻿@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Index</title>
+	<script type="text/javascript" src="~/Scripts/jquery-2.0.3.min.js"></script>
+</head>
+<body>
+	<div>
+		@if (User.Identity.IsAuthenticated)
+		{
+			<p>[<a href="@Url.Action("Logout", "Account")">Sign Out</a>]</p>
+		}
+		else
+		{
+			<p>[<a href="@Url.Action("Login", "Account")">Sign In</a>]</p>
+		}
+
+		<h1>Welcome!</h1>
+
+		<div>
+			<button id="load1">Load (anonymous)</button>
+			<button id="load2">Load (authenticated)</button>
+			<button id="load3">Load (authenticated as admin)</button>
+		</div>
+
+		<p id="status"></p>
+
+		<ul id="list"></ul>
+	</div>
+
+	<script type="text/javascript">
+		$(document).ajaxError(function (e, xhr) {
+			if (xhr.status == 401)
+				window.location = "/Account/Login";
+			else if (xhr.status == 403)
+				alert("You have no enough permissions to request this resource.");
+		});
+
+		$(function() {
+			var $list = $("#list");
+			var $status = $("#status");
+
+			$("#load1").click(function() {
+				$list.empty();
+				$status.text("Loading...");
+
+				$.post("/home/getdata1")
+					.always(function() {
+						$status.empty();
+					})
+					.success(function(data) {
+						for (var i = 0; i < data.Items.length; i++) {
+							$list.append($("<li/>").text(data.Items[i]));
+						}
+					});
+			});
+
+			$("#load2").click(function() {
+				$list.empty();
+				$status.text("Loading...");
+
+				$.post("/home/getdata2")
+					.always(function() {
+						$status.empty();
+					})
+					.success(function(data) {
+						for (var i = 0; i < data.Items.length; i++) {
+							$list.append($("<li/>").text(data.Items[i]));
+						}
+					});
+			});
+
+			$("#load3").click(function() {
+				$list.empty();
+				$status.text("Loading...");
+
+				$.post("/home/getdata3")
+					.always(function() {
+						$status.empty();
+					})
+					.success(function(data) {
+						for (var i = 0; i < data.Items.length; i++) {
+							$list.append($("<li/>").text(data.Items[i]));
+						}
+					});
+
+			});
+		});
+	</script>
+</body>
+</html>

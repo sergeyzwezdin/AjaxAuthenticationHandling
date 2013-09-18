@@ -1,0 +1,33 @@
+﻿@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Login</title>
+</head>
+<body>
+	<div>
+		@using (Html.BeginForm())
+		{
+			<p>
+				Please, use <strong>admin / 123</strong> pair to authenticate :-).
+			</p>
+
+			<div>
+				<input type="text" name="login" placeholder="login" />
+			</div>
+
+			<div>
+				<input type="password" name="password" placeholder="password" />
+			</div>
+
+			@Html.ValidationSummary()
+			<button type="submit">Login</button>
+		}
+	</div>
+</body>
+</html>
